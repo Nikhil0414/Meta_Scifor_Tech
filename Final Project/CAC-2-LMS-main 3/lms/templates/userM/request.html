@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <!----======== CSS ======== -->
+    <link href="{% static 'css/requeststyle.css'%}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./requeststyle.css"> -->
+     
+    <!----===== Iconscout CSS ===== -->
+    <!-- <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"> -->
+
+    <title>LMS | Laundry Request</title>
+{% endblock extrahead %}
+
+{% block content %}
+<body>
+    <div class="wrapper">
+        <nav>
+            <div class="content">
+                <div class="logo"><a href="#">{{ user.username }}</a></div>
+                <ul class="links">
+                    <li><a href="{% url 'user-w' %}">Home</a></li>
+                    <li><a href="{% url 'order-req' %}">Laundry Request</a></li>
+                    <li><a href="{% url 'track-sts' %}">Track Status</a></li>
+
+                </ul>
+            </div>
+            <div class="rightlink">
+                <form method="POST" action="/signout" class="log-out">
+                {% csrf_token %}
+                  <button type="submit" id="signout" name="signout">
+                  <!-- <i class="fas fa-sign-out"></i> -->
+                  <p>Log Out</p></button>
+                </form>
+              </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>Laundry Requests</header>
+
+        <form id="laundryForm" action='{% url 'order-req' %}' method='post'>
+            {% csrf_token %}
+            <div class="form first">
+                <div class="details personal">
+                    <span class="title">Personal Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Name</label>
+                            <input type="text" placeholder="Enter your name" name="Name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>RegNo</label>
+                            <input type="tel" minlength="8" maxlength="8" placeholder="Registration Number" name="RegNo" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Department</label>
+                            <select value="Department" name="Department" required>
+                                <option option disabled selected>Choose Dept:</option>
+                                <option>BBA</option>
+                                <option>BCOM</option>
+                                <option>BALLB</option>
+                                <option>BBALLB</option>
+                                <option>BSCDS</option>
+                                <option>BSCEA</option>
+                                <option>MBA</option>
+                                <option>MSCGF</option>
+                                <option>MSCEA</option>
+                                <option>MSCDS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details ID">
+                    <span class="title">Laundry Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Service Type</label>
+                            <select value="Service" name="Service" id="slct1">
+                                <option disabled selected>Choose a option</option>
+                                <option>Dryclean</option>
+                                <option>Normalwash</option>
+                            </select>
+                        </div>
+                        <div class="input-field">
+                            <label>Quantity</label>
+                            <input type="number" min="5" max="30" placeholder="Quantity" name="Quantity" id="quantityInput" required>
+                        </div>
+                       
+                        <div class="input-field">
+                            <label>Amount</label>
+                            <input type="text" placeholder="Amount" name="Amount" id="amountInput" readonly>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Expected Delivery Date</label>
+                            <input type="date" placeholder="Expected delivery date" name="Delivery" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit">
+                    <span class="btnText">Submit</span>
+                    <i class="uil uil-navigator"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <section class="sticky">
+        <div class="bubbles">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+    </section>
+
+    <script>
+        // Get the quantity input element
+        var quantityInput = document.getElementById("quantityInput");
+        var amountInput = document.getElementById("amountInput");
+
+        // Function to calculate the amount
+        function calculateAmount() {
+            // Get the value of the quantity input
+            var quantity = quantityInput.value;
+
+            // Calculate the amount by multiplying quantity by 10
+            var amount = quantity * 10;
+
+            // Set the value of the amount input
+            amountInput.value = amount;
+        }
+
+        // Call the calculateAmount function when the quantity input changes
+        quantityInput.addEventListener("input", calculateAmount);
+
+        // Call the calculateAmount function initially to set the initial amount
+        calculateAmount();
+
+        // Prevent default form submission and handle it asynchronously
+
+    </script>
+</body>
+{% endblock content %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block extrahead %}
+    <!-- <link href="{% static 'css/welcomestyle.css'%}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{% static 'css/userwelcome.css' %}" />
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+    
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.7/src/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/preline@2.0.3/dist/preline.min.js"></script> -->
+{% endblock extrahead %}
+
+{% block content %}
+    <!-- // Navbar -->
+    <!-- <div class="list5"> -->
+      <div class="wrapper">
+            <nav>
+              <div class="content">
+                <div class="logo"><a href="#">{{ user.username }}</a></div>
+                <ul class="links">
+                  <li><a href="{% url 'user-w' %}">Home</a></li>
+                  <li><a href="{% url 'order-req' %}">Laundry Request</a></li>
+                  <li><a href="{% url 'track-sts' %}">Track Status</a></li>
+
+                </ul>
+              </div>
+              <div class="rightlink">
+                <form method="POST" action="/signout" class="log-out">
+                {% csrf_token %}
+                  <button type="submit" id="signout" name="signout">
+                  <!-- <i class="fas fa-sign-out"></i> -->
+                  <p>Log Out</p></button>
+                </form>
+              </div>
+            </nav>
+        </div>
+
+    <!-- // Home Section -->
+
+    <div id="home">
+      <h1>Laundry Management System</h1>
+      <div class="subheading">
+        <h3 class="subText">Cleaning</h3>
+        <h3 class="subText">Washing</h3>
+        <h3 class="subText">Drying</h3>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="bottom">
+        <center>
+        </center>
+      </div>
+    </div>
+
+    <!-- //Footer -->
+
+    <!-- <footer>
+    
+  </footer> -->
+    <!-- </div> -->
+    <!-- bubbles back ground -->
+    <section class="sticky">
+      <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
+    </section>
+    <!-- end background -->
+  </body>
+
+{% endblock content %}

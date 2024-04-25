@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extrahead %}
+<title>LMS | Order Details</title>
+<link rel="stylesheet" href="{% static 'css/invoice.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="order-details">
+        <h1>Order Details</h1>
+
+        <h3>ID: {{ order.id }}</h3>
+        <h3>User: {{ order.user.username }}</h3>
+        <br>
+        <p>Service Type: {{ order.service_type }}</p>
+        <p>Quantity: {{ order.quantity }}</p>
+        <p>Payment Status: {{ order.payment_set.first.payment_status }}</p>
+        <!-- Display Delivery Status -->
+        <p>Delivery Status: {{ order.delivery_status }}</p>
+    </div>
+    <br>
+
+
+    <!-- Payment Information -->
+    <div class="payment-info">
+        <p>Amount Paid: {{ payment.amount_paid }}</p>
+        <p>Amount Due: {{ payment.due_amount }}</p>
+        <p>Payment Status: {{ payment.payment_status }}</p>
+        <p>Payment Date: {{ payment.payment_date }}</p>
+    </div>
+    <br>
+    <br>
+
+    <div class="submit">
+        <a href="{% url 'staff_page' %}">Go Back</a>
+    </div>
+</div>
+
+<!-- bubbles back ground -->
+<section class="sticky">
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <!-- <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div> -->
+    </div>
+</section>
+<!-- end background -->
+{% endblock content %}
+
+{% block extrafooter %}
+<script src="https://cdn.jsdelivr.net/npm/validator@13.1.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.7.0/validator.min.js"></script>
+{% endblock extrafooter %}

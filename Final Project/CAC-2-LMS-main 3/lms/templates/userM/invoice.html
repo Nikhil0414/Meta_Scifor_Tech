@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extrahead %}
+<title>LMS | Payment</title>
+<link rel="stylesheet" href="{% static 'css/invoice.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+
+<div class="card">
+    <div class="invoice">
+        <h1>Invoice</h1>
+
+        <!-- User Information -->
+        <div class="user-info">
+            <h2>User Information</h2>
+            <p>Name: {{ user.username }}</p>
+            <p>Email: {{ user.useremail }}</p>
+        </div>
+
+        <br>
+        <br>
+
+        <!-- Order Details -->
+        <div class="order-details">
+            <h2>Order Details</h2>
+            <p>Service Type: {{ order.service_type }}</p>
+            <p>Quantity: {{ order.quantity }}</p>
+            <p>Amount: {{ order.amount }}</p>
+            <p>Expected Delivery Date: {{ order.expected_delivery_date }}</p>
+        </div>
+        <br>
+        <br>
+
+        <!-- Payment Information -->
+        <div class="payment-info">
+            <h2>Payment Information</h2>
+            <p>Amount Paid: {{ payment.amount_paid }}</p>
+            <p>Amount Due: {{ payment.due_amount }}</p>
+            <h3>Payment Status: {{ payment.payment_status }}</h3>
+            <p>Payment Date: {{ payment.payment_date }}</p>
+        </div>
+        <br>
+        <br>
+
+        <div class="submit">
+            <a href="{% url 'user-w' %}">Go Home</a>
+        </div>
+    </div>
+</div>
+
+<!-- bubbles back ground -->
+<section class="sticky">
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <!-- <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div> -->
+    </div>
+</section>
+<!-- end background -->
+{% endblock content %}
+
+{% block extrafooter %}
+<script src="https://cdn.jsdelivr.net/npm/validator@13.1.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.7.0/validator.min.js"></script>
+{% endblock extrafooter %}

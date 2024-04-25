@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <!----======== CSS ======== -->
+    <link href="{% static 'css/trackstatus.css'%}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./trackstatus.css"> -->
+    <title>LMS | Track Status</title>
+{% endblock extrahead %}
+
+{% block content %}
+
+    <div class="wrapper">
+      <nav>
+        <div class="content">
+          <div class="logo"><a href="#">{{ user.username }}</a></div>
+          <ul class="links">
+            <li><a href="{% url 'user-w' %}">Home</a></li>
+            <li><a href="{% url 'order-req' %}">Laundry Request</a></li>
+            <li><a href="{% url 'track-sts' %}">Track Status</a></li>
+
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% load static %}
+        <div class="status">
+            <div class="input">
+                <input type="text" placeholder="Enter Tracking Id" name='TrackingId'>
+            </div>
+            <div class="submit">
+                <button>Track</button>
+            </div>
+        </div>
+    </form>
+      <!-- bubbles back ground -->
+  <section class="sticky">
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <!-- <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div> -->
+    </div>
+  </section>
+  <!-- end background -->
+{% endblock content %}

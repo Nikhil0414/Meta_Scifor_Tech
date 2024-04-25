@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extrahead %}
+<title>LMS | Payment</title>
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+    <div class="container">
+    <h1>Awaiting Payment.....</h1>
+
+    <form id="paymentForm" method="post" action="{% url 'payment' order.id %}">
+        {% csrf_token %}
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="card_number" placeholder="1234 5678 9012 3456" required>
+
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiry_date" placeholder="MM/YYYY" required>
+
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+
+        <label for="amountPaid">Amount:</label>
+        <input type="number" id="amountPaid" name="amount_paid" placeholder="Enter amount" required step="any">
+
+        <button type="submit">Pay Now</button>
+    </form>
+
+    <div id="paymentMessage"></div>
+</div>
+
+          <!-- bubbles back ground -->
+  <section class="sticky">
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <!-- <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div> -->
+    </div>
+  </section>
+  <!-- end background -->
+{% endblock content %}
+
+{% block extrafooter %}
+<script src="https://cdn.jsdelivr.net/npm/validator@13.1.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.7.0/validator.min.js"></script>
+{% endblock extrafooter %}

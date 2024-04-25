@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extrahead %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>LMS | Status Show</title>
+    <!-- <link rel="stylesheet" href="./showstatus.css"> -->
+    <link href="{% static 'css/showstatus.css'%}" rel="stylesheet">
+{% endblock extrahead %}
+
+{% block content %}
+<body>
+    <div class="status">
+        <div class="input">
+                    <p>Delivery Status: {{ order.delivery_status }}</p>
+
+            <h3>Your order will be delivered on: "{{ order.expected_delivery_date }}"</h3>
+        </div>
+        <div class="submit">
+            <a href="{% url 'user-w' %}">Go Home</a>
+        </div>
+
+        <br>
+
+         <div class="submit">
+            <a href="{% url 'invoice' order.id %}">Invoice</a>
+        </div>
+
+    </div>
+    <!-- bubbles back ground -->
+    <section class="sticky">
+        <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        </div>
+    </section>
+  <!-- end background -->
+</body>
+{% endblock content %}

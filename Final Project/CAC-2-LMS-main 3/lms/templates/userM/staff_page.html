@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+    background-color: rgba(12, 119, 169, 1); /* RGBA color with opacity 1 (fully opaque) */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: rgba(12, 119, 169, 1); /* RGBA color with opacity 1 (fully opaque) */
+
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+    background-color: rgba(12, 119, 169, 1); /* RGBA color with opacity 1 (fully opaque) */
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center; /* Center-align the content */
+
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+    background-color: rgba(12, 119, 169, 1); /* RGBA color with opacity 1 (fully opaque) */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+
+        .button-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .button-list li {
+            display: inline-block;
+            margin-right:30px; /* Adjust as needed */
+                margin-bottom: 10px; /* Add line gap after each button */
+
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Staff Page</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Service Type</th>
+                    <th>Qty</th>
+                    <th>Amt</th>
+                    <th>Amt Paid</th>
+                    <th>Delivery Date</th>
+                    <th>Payment Status</th>
+                    <th>Delivery Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user.username }}</td>
+                    <td>{{ order.service_type }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.amount }}</td>
+                    <td>{{ order.payment_set.first.amount_paid }}</td>
+                    <td>{{ order.expected_delivery_date }}</td>
+                    <td>{{ order.payment_set.first.payment_status }}</td>
+                    <td class="delivery-status">{{ order.delivery_status }}</td>
+                    <td class="actions">
+    <ul class="button-list">
+        <li><a href="{% url 'view_details' order.id %}" class="btn">View Details</a></li>
+        <li class="update-status-form">
+            <button type="button" class="btn update-status" data-status="completed">Washing Completed</button>
+        </li>
+        <li class="update-status-form">
+            <button type="button" class="btn update-status" data-status="delivered">Delivered on Time</button>
+        </li>
+        <li class="update-status-form">
+            <button type="button" class="btn update-status" data-status="received">User Received Clothes</button>
+        </li>
+    </ul>
+</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function() {
+    $('.update-status').click(function() {
+        var orderId = $(this).closest('tr').find('td:first').text(); // Get Order ID from the first column
+        var status = $(this).data('status');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'update_order_status' 0 %}'.replace('0', orderId),
+            data: {
+                'status': status,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                // Update the order status in the corresponding <td> element
+                var orderRow = $('.container').find('td:contains(' + orderId + ')').closest('tr');
+                if (status === 'completed') {
+                    orderRow.find('.delivery-status').text('Washing Completed');
+                } else if (status === 'delivered') {
+                    orderRow.find('.delivery-status').text('Delivered on Time');
+                } else if (status === 'received') {
+                    orderRow.find('.delivery-status').text('User Received Clothes');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
+    </script>
+
+
+
+</body>
+</html>
