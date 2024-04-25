@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+              background: linear-gradient(to bottom, #175d69 23%, #330c43 95%);
+
+        }
+
+        .container {
+            max-width: 1500px;
+            padding: 10px;
+            margin-top:70px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        header {
+          position: fixed;
+            top: 0;
+              left: 0;
+              width: 100%;
+            background-color: #175d69;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: 40px;
+
+        }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .post {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .post h2 {
+            font-size: 34px;
+            margin-bottom: 20px;
+        }
+
+        .post h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+
+        }
+
+        .post p {
+            margin-top: 5px;
+            margin-right: 35px;
+            margin-left: 35px;
+            line-height: 1.6;
+        }
+
+        .post img {
+            width: 60%;
+            margin-top: 10px;
+            height: 350px; /* Adjust image height as needed */
+            border-radius: 10px 10px 0 0;
+            object-fit: cover;
+        }
+
+
+        .blog-card {
+
+            display: inline-block;
+            width: 290px; /* Adjust width as needed */
+            height: 300px; /* Adjust height as needed */
+            margin-right: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 10px;
+            cursor: pointer;
+            align-items: center;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 150px; /* Adjust image height as needed */
+            border-radius: 10px 10px 0 0;
+        }
+
+        .blog-card h3 {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .blog-card p {
+            overflow: hidden;
+            margin-top: 15px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+
+        footer {
+            background-color: #175d69;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>My Blog</h1>
+        <nav>
+            <ul>
+<!--                <li><a href="#">Home</a></li>-->
+<!--                <li><a href="#">About</a></li>-->
+<!--                <li><a href="#">Contact</a></li>-->
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="post">
+        <h2>Real-Time Hand Tracking and Gesture Recognition with MediaPipe Rerun Showcase</h2>
+                <img src="https://miro.medium.com/v2/resize:fit:668/format:webp/1*dkceIcXHN6GaGviLWuW06g.gif" alt="Blog Image">
+
+        <h3>Motivation — Why Track/Detect hands with Neural Networks?</h3>
+        <p>
+            There are several existing approaches to tracking hands in the computer vision domain. Incidentally, many of these approaches are rule based (e.g. extracting background based on texture and boundary features, distinguishing between hands and background using color histograms and HOG classifiers, etc) making them not very robust. For example, these algorithms might get confused if the background is unusual or where sharp changes in lighting conditions cause sharp changes in skin color or the tracked object becomes occluded. (see here for a review paper on hand pose estimation from the HCI perspective).
+            With sufficiently large datasets, neural networks provide opportunity to train models that perform well and address challenges of existing object tracking/detection algorithms — varied/poor lighting, diverse viewpoints and even occlusion. The main drawbacks to usage for real-time tracking/detection is that they can be complex, are relatively slow compared to tracking-only algorithms and it can be quite expensive to assemble a good dataset. But things are changing with advances in fast neural networks.
+        </p>
+        <p>
+            Furthermore, this entire area of work has been made more approachable by deep learning frameworks (such as the tensorflow object detection api) that simplify the process of training a model for custom object detection. More importantly, the advent of fast neural network models like ssd, faster r-cnn, rfcn (see here ) etc make neural networks an attractive candidate for real-time detection (and tracking) applications. There are multiple applications for robust hand tracking like this across HCI areas (as an input device etc.).
+            If you are not interested in the process of training the detector, you can skip straight to the section on applying the model to detect hands.
+
+            Training a model is a multi-stage process (assembling dataset, cleaning, splitting into training/test partitions and generating an inference graph). While I lightly touch on the details of these parts, there are a few other tutorials which cover training a custom object detector using the tensorflow object detection api in more detail (see here and here). I recommend you walk through those if interested in training a custom detector from scratch.
+
+        </p>
+        <h3>Data preparation and network training in Tensorflow</h3>
+                <p>
+                    Some initial work needs to be done to the Egohands dataset to transform it into the format (tfrecord) which Tensorflow needs to train a model. The Github repo contains egohands_dataset_clean.py a script that will help you generate these csv files.
+
+                Downloads the egohands datasets
+                Renames all files to include their directory names to ensure each filename is unique
+                Splits the dataset into train (80%), test (20%) folders.
+                Reads in `polygons.mat` for each folder, generates bounding boxes and visualizes them to ensure correctness.
+                Once the script is done running, you should have an images folder containing two folders - train, and test. Each of these folders should also contain a csv label document each - `train_labels.csv`, `test_labels.csv` that can be used to generate `tfrecords`.
+                Next: convert your dataset + csv files to tfrecords. Please use the guide provided by Harrison from pythonprogramming on how to generate tfrecords given your label csv files and your images. The guide also covers how to start the training process if training locally. If training in the cloud using a service like GCP, see the guide here.
+                    Note: While the egohands dataset provides four separate labels for hands (own left, own right, other left, and other right), for my purpose, I am only interested in the general `hand` class and label all training data as `hand`. You can modify the train script to generate `tfrecords` that support 4 labels.
+            The Egohands Dataset
+            The hand detector model is built using data from the Egohands Dataset dataset. This dataset works well for several reasons. It contains high quality, pixel level annotations (>15000 ground truth labels) where hands are located across 4800 images. All images are captured from an egocentric view (Google glass) across 48 different environments (indoor, outdoor) and activities (playing cards, chess, jenga, solving puzzles etc). If you will be using the Egohands dataset, you can cite them as follows:
+        </p>
+        <p>As the training process progresses, the expectation is that total loss (errors) gets reduced to its possible minimum (about a value of 1 or lower). By observing the tensorboard graphs for total loss(see image below), it should be possible to get an idea of when the training process is complete (total loss does not decrease with further iterations/steps). I ran my training job for 200k steps (took about 5 hours) and stopped at a total Loss (errors) value of 2.575.(In retrospect, I could have stopped the training at about 50k steps and gotten a similar total loss value). With tensorflow, you can also run an evaluation concurrently that assesses your model to see how well it performs on the test data. A commonly used metric for performance is mean average precision (mAP) which is single number used to summarize the area under the precision-recall curve. mAP is a measure of how well the model generates a bounding box that has at least a 50% overlap with the ground truth bounding box in our test dataset. For the hand detector trained here, the mAP value was 0.9686@0.5IOU. mAP values range from 0–1, the higher the better.
+        </p>
+    </div>
+
+<div class="post">
+        <h2>More Blogs</h2>
+</div>
+
+
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*zbgF4-2ecSKD_VK1" >
+        <h3>The German Tank Problem</h3>
+        <p>Statistical estimates can be fascinating, can’t they? By just sampling a few instances from a population, you can infer properties of that population such as the mean value or the variance. Likewise, under the right circumstances, it is possible to estimate the total size of the population, as I want to show you in this article.
+        </p>
+
+    </div>
+
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*AuAcVpCbIgvvkAnj" alt="Blog Image">
+        <h3>TARNet and Dragonnet</h3>
+        <p>Building machine learning models is fairly easy nowadays, but often, making good predictions is not enough. On top, we want to make causal statements about interventions. Knowing with high accuracy that a customer will leave our company is good, but knowing what to do about it — for example sending a coupon — is much better.
+        </p>
+</div>
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*JFXt_yX9X_9Io1nE.jpg" >
+        <h3>How to Use SQLAlchemy</h3>
+        <p>Making database requests is a typical IO-bound task as it spends most of the time waiting for the response from a database server. Therefore, if your application makes a lot of database requests, then the performance can be improved dramatically by running them concurrently, which is supported by SQLAchemy, a versatile Python SQL toolkit and Object Relational Mapper.
+        </p>
+
+    </div>
+
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*z4BsOeOHZz8Qlxn_" alt="Blog Image">
+        <h3>Create an RFM Model in BigQuery</h3>
+        <p>In this article we will cover:
+            What RFM Segmentation is and its importance in marketing
+            How to create the RFM quantiles in BigQuery
+            How and what RFM segments you can create from the RFM quantiles
+            Considerations for your own RFM model
+        </p>
+ </div>
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*1chiXTnv5cqlywRm" >
+        <h3>Understanding Concept Drift</h3>
+        <p>Concept drift detection and adaptation is a key stage in the monitoring of AI-based systems.
+        In this article, we’ll:
+        Describe what concept drift is and how it arises in time-dependent data
+        Explore verification latency, and how it impacts change detection processes
+        Show a change detection example using scikit-multiflow
+        </p>
+
+    </div>
+
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*jUCTi-gNlH_wB6sDYpoB6Q.png" alt="Blog Image">
+        <h3>Downscaling a Satellite Thermal Image from 1000m to 10m</h3>
+        <p>Downscaling the thermal imagery captured by satellites has been extensively studied due to the tradeoff between the spatial and temporal resolution of satellites that provide thermal images. For example, the revisit cycle of Landsat-8 is 16 days, with an original thermal resolution of 100 meters. In contrast, Sentinel-3 can provide daily thermal images, but at a spatial resolution of 1000 meters.
+        </p>
+    </div>
+     <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*M9fnllZ5ALkiUOu5iSngYA.png" alt="Blog Image">
+        <h3>Structure and Relationships</h3>
+        <p>Interconnected graphical data is all around us, ranging from molecular structures to social networks and design structures of cities. Graph Neural Networks (GNNs) are emerging as a powerful method of modelling and learning the spatial and graphical structure of such data.
+        </p>
+     </div>
+    <div class="blog-card">
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/0*NGlFDxMdqaBPLtMc" >
+        <h3>Time-LLM: Reprogram an LLM for Time Series Forecasting</h3>
+        <p>It is not the first time that researchers try to apply natural language processing (NLP) techniques to the field of time series.
+        For example, the Transformer architecture was a significant milestone in NLP, but its performance in time series forecasting remained average, until PatchTST was proposed.
+        As you know, large language models (LLMs) are being actively developed and have demonstrated impressive generalization and reasoning capabilities in NLP.</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 My Blog. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

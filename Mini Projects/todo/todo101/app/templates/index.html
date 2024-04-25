@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        * {
+            margin: 10px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #330c43;
+            color: #333;
+        }
+
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fade-in 0.5s ease-out;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+         h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 40px;
+            color: #4CAF50;
+            font-size: 56px; /* Increased font size */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .todo-list {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+
+        .todo-item:hover {
+            background-color: #e5e5e5;
+        }
+
+        .todo-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .todo-item label {
+            flex: 1;
+            font-size: 30px;
+        }
+
+        .add-todo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-todo input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 24px;
+            width: 70%;
+            margin-right: -2px;
+            outline: none;
+        }
+        .add-todo button {
+            padding: 0;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 20px solid #4CAF50;
+            border-radius: 0 100px 100px 0;
+            font-size: 26px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .add-todo button:hover {
+            background-color: #45a049;
+        }
+
+        .remove-todo {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .remove-todo:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Todo List</h1>
+
+    <ul class="todo-list" id="todo-list">
+        <li class="todo-item">
+            <input type="checkbox">
+            <label>Complete assignment</label>
+            <button class="remove-todo"><i class="fas fa-trash"></i></button>
+        </li>
+        <li class="todo-item">
+            <input type="checkbox">
+            <label>Attend the meeting</label>
+            <button class="remove-todo"><i class="fas fa-trash"></i></button>
+        </li>
+    </ul>
+
+    <div class="add-todo">
+        <input type="text" id="new-todo" placeholder="Add new todo">
+        <button onclick="addTodo()"><i class="fas fa-plus"></i></button>
+    </div>
+</div>
+
+<script>
+    function addTodo() {
+        var input = document.getElementById("new-todo");
+        var todoText = input.value.trim();
+        if (todoText !== "") {
+            var todoList = document.getElementById("todo-list");
+            var todoItem = document.createElement("li");
+            todoItem.classList.add("todo-item");
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+
+            var todoLabel = document.createElement("label");
+            todoLabel.textContent = todoText;
+
+            var removeButton = document.createElement("button");
+            removeButton.innerHTML = '<i class="fas fa-trash"></i>';
+            removeButton.classList.add("remove-todo");
+            removeButton.onclick = function() {
+                todoItem.remove();
+            };
+
+            todoItem.appendChild(checkbox);
+            todoItem.appendChild(todoLabel);
+            todoItem.appendChild(removeButton);
+            todoList.appendChild(todoItem);
+
+            input.value = "";
+        }
+    }
+
+    function removeTodo() {
+        var todoList = document.getElementById("todo-list");
+        todoList.innerHTML = ""; // Remove all todo items
+    }
+</script>
+
+
+</body>
+</html>
